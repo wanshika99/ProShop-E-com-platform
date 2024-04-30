@@ -19,7 +19,7 @@ const ProductScreen = () => {
       <Col md={4}>
         <ListGroup variant='flush'>
           <ListGroup.Item>
-            <h3>{product.name}</h3>
+            <h3><strong>{product.name}</strong></h3>
           </ListGroup.Item>
           <ListGroup.Item>
             <Rating value={product.rating} text={`${product.numReviews} reviews`} />
@@ -50,8 +50,13 @@ const ProductScreen = () => {
                 </Col>
               </Row>
             </ListGroup.Item>
-            <ListGroup.Item>
-              <Button className='btn-block' type='button' disabled={product.countInStock === 0}>Add to Cart</Button>
+            <ListGroup.Item >
+              <Button className='btn-block' 
+                      type='button' 
+                      disabled={product.countInStock === 0} 
+                      style={{ backgroundColor: product.countInStock > 0 ? '#36454F' : ''}}>
+                      Add to Cart
+              </Button>
             </ListGroup.Item>
           </ListGroup>
         </Card>
