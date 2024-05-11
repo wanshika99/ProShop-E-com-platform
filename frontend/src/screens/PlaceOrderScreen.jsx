@@ -151,26 +151,26 @@ const PlaceOrderScreen = () => {
                         </ListGroup.Item>
                         <ListGroup.Item>
                             <Row>
-                                <Col>Items</Col>
-                                <Col>${addDecimals(cart.itemsPrice)}</Col>
+                                <Col>Items Price</Col>
+                                <Col style={{textAlign:"right", paddingRight: '10%'}}>$ {addDecimals(cart.itemsPrice)}</Col>
                             </Row>
                         </ListGroup.Item>
                         <ListGroup.Item>
                             <Row>
-                                <Col>Shipping</Col>
-                                <Col>${addDecimals(cart.shippingPrice)}</Col>
+                                <Col>Shipping Price</Col>
+                                <Col style={{textAlign:"right", paddingRight: '10%'}}>$ {addDecimals(cart.shippingPrice)}</Col>
                             </Row>
                         </ListGroup.Item>
                         <ListGroup.Item>
                             <Row>
-                                <Col>Tax</Col>
-                                <Col>${addDecimals(cart.taxPrice)}</Col>
+                                <Col>Calculated Tax</Col>
+                                <Col style={{textAlign:"right", paddingRight: '10%'}}>$ {addDecimals(cart.taxPrice)}</Col>
                             </Row>
                         </ListGroup.Item>
                         <ListGroup.Item>
                             <Row>
-                                <Col>Total</Col>
-                                <Col>${addDecimals(cart.totalPrice)}</Col>
+                                <Col>Total Price</Col>
+                                <Col style={{textAlign:"right", paddingRight: '10%'}}>$ {addDecimals(cart.totalPrice)}</Col>
                             </Row>
                         </ListGroup.Item>
                         {error ? ( 
