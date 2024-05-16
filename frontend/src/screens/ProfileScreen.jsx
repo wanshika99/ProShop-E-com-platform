@@ -88,7 +88,6 @@ return (
                                             placeholder='Enter new password'
                                             value={newPassword}
                                             onChange={(e) => setNewPassword(e.target.value)}
-                                            required
                                             className='rounded'
                                             ></Form.Control>
                                     </Form.Group>
@@ -100,7 +99,6 @@ return (
                                             placeholder='Confirm new password'
                                             value={confirmPassword}
                                             onChange={(e) => setConfirmPassword(e.target.value)}
-                                            required
                                             className='rounded'
                                             ></Form.Control>
                                     </Form.Group>
