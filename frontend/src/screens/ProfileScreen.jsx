@@ -2,11 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { LinkContainer } from 'react-router-bootstrap';
 import Message from '../components/Message';
 import Loader from '../components/Loader';
-import { Form, Button, Row, Col, ListGroup, Card } from 'react-bootstrap';
+import { Form, Button, Row, Col, ListGroup, Card, Table } from 'react-bootstrap';
 import { toast } from 'react-toastify';
 import { useProfileMutation } from '../slices/usersApiSlice';
 import { setCredentials } from '../slices/authSlice';
 import { useDispatch, useSelector } from 'react-redux';
+import { FaTimes } from 'react-icons/fa';
+import { useGetMyOrdersQuery } from '../slices/orderApiSlice';
 
 
 const ProfileScreen = () => {
@@ -20,6 +22,7 @@ const ProfileScreen = () => {
     const [confirmPassword, setConfirmPassword] = useState('');
 
     const [updateProfile, { isLoading:loadingUpdateProfile }] = useProfileMutation();
+    const { data:orders, isLoading:loadingOrders, error:errorOrders } = useGetMyOrdersQuery();
 
     useEffect(() => { 
         if (userInfo) { 
@@ -131,6 +134,53 @@ return (
                     <ListGroup variant='flush'>
                         <ListGroup.Item>
                             <h3>My Orders</h3>
+                            { loadingOrders ? (<Loader />) : errorOrders ? (
+                                <Message variant='danger'>
+                                    {errorOrders?.data?.message || errorOrders.error}
+                                </Message>) : (
+                                <Table striped bordered hover responsive className='table-sm my-2'>
+                                    <thead>
+                                        <tr>
+                                            <th>Id</th>
+                                            <th>Date</th>
+                                            <th>Total</th>
+                                            <th>Paid</th>
+                                            <th>Delivered</th>
+                                            <th>Details</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        { orders.length ? ( 
+                                            orders.map(order => (
+                                                <tr key={order._id}>
+                                                    <td>{order._id}</td>
+                                                    <td>{order.createdAt.substring(0, 10)}</td>
+                                                    <td>${order.totalPrice}</td>
+                                                    <td>{order.isPaid ? order.paidAt.substring(0, 10) : (
+                                                        <FaTimes style={{ color: 'red' }} />
+                                                    )}</td>
+                                                    <td>{order.isDelivered ? order.deliveredAt.substring(0, 10) : (
+                                                        <FaTimes style={{ color: 'red' }} />
+                                                    )}</td>
+                                                    <td>
+                                                        <LinkContainer to={`/orders/${order._id}`}>
+                                                            <Button className='btn-sm' variant='light'>Details</Button>
+                                                        </LinkContainer>
+                                                    </td>
+                                                </tr>
+                                            ))
+                                        ) : ( 
+                                            <tr>
+                                                <td colSpan={6}>
+                                                <Row className='mt-3 mx-3'>
+                                                    { <Message variant='info'>No Orders</Message> }
+                                                </Row>
+                                                </td>
+                                            </tr>
+                                        )}
+                                    </tbody>
+                                </Table>
+                            )}
                         </ListGroup.Item>
                     </ListGroup>
                 </Card>
