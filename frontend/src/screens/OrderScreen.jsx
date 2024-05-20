@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
-// import { useSelector } from 'react-redux';
-import { Row, Col, ListGroup, Image, Card, Table } from 'react-bootstrap';
+import { useSelector } from 'react-redux';
+import { Row, Col, ListGroup, Image, Card, Table, Button } from 'react-bootstrap';
 import { toast } from 'react-toastify';
 import { PayPalButtons, usePayPalScriptReducer } from "@paypal/react-paypal-js";
 import Message from '../components/Message';
 import Loader from '../components/Loader';
-import { useGetOrderDetailsQuery, usePayOrderMutation, useGetPayPalClientIdQuery } from '../slices/orderApiSlice';
+import { useGetOrderDetailsQuery, usePayOrderMutation, useGetPayPalClientIdQuery, useMarkOrderAsDeliveredMutation } from '../slices/orderApiSlice';
 import { addDecimals } from '../utils/cartUtils';
 
 const OrderScreen = () => {
@@ -15,9 +15,10 @@ const OrderScreen = () => {
     //console.log(order);
 
     const [payOrder, { isLoading:loadingPay }] = usePayOrderMutation();
+    const [deliverOrder, { isLoading:loadingDeliverOrder }] = useMarkOrderAsDeliveredMutation();
     const [{ isPending }, paypalDispatch] = usePayPalScriptReducer();
     const { data: paypal, isLoading: loadingPayPal, error: errorPayPal } = useGetPayPalClientIdQuery();
-    // const { userInfo } = useSelector((state) => state.auth);
+    const { userInfo } = useSelector((state) => state.auth);
 
     useEffect(() => { 
         if (!errorPayPal && !loadingPayPal && paypal.clientId) {
@@ -75,6 +76,16 @@ const OrderScreen = () => {
             return orderId;
         });
     };
+
+    const deliverOrderHandler = async () => { 
+        try { 
+            await deliverOrder(orderId);
+            refetch();
+            toast.success('Order Delivered');
+        } catch (err) { 
+            toast.error(err?.data?.message || err.message);
+        }
+    }
 
     return isLoading ? <Loader /> : error ? <Message variant='danger' /> : (
         <>
@@ -248,7 +259,15 @@ const OrderScreen = () => {
                                     )}
                                 </ListGroup.Item>
                             )}
-                            
+                        { loadingDeliverOrder && <Loader /> }   
+                        { userInfo && userInfo.isAdmin && order.isPaid && !order.isDelivered && ( 
+                            <ListGroup.Item style={{ display: 'flex', justifyContent: 'center' }}>
+                                <Button type='button' className='btn btn-block' onClick={deliverOrderHandler}>
+                                    Mark As Delivered
+                                </Button>
+                            </ListGroup.Item>
+                        
+                        )} 
                     </ListGroup>
                 </Card>
                 </Col>

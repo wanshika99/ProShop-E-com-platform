@@ -7,6 +7,9 @@ import Message from '../components/Message';
 
 const HomeScreen = () => {
   const { data: products, isLoading, error } = useGetProductsQuery();
+
+  const existingProducts = products?.filter((product) => product.name !== 'Sample name');
+
   return (
     <>
     { isLoading ? (
@@ -18,7 +21,7 @@ const HomeScreen = () => {
     <>
     <h1>Latest Products</h1>
     <Row>
-        {products.map((product) => (
+        {existingProducts.map((product) => (
             <Col key={product._id} sm={12} md={6} lg={6} xl={4}>
                 <Product product={product} />
             </Col>
