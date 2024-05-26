@@ -8,8 +8,11 @@ import Message from "../components/Message";
 import Paginate from "../components/Paginate";
 
 const HomeScreen = () => {
-  const { pageNumber } = useParams();
-  const { data, isLoading, error } = useGetProductsQuery({ pageNumber });
+  const { pageNumber, keyword } = useParams();
+  const { data, isLoading, error } = useGetProductsQuery({
+    keyword,
+    pageNumber,
+  });
   const existingProducts = data?.products.filter(
     (product) => product.name !== "#Sample name"
   );
@@ -34,7 +37,11 @@ const HomeScreen = () => {
           </Row>
           <Row>
             <Col>
-              <Paginate pages={data?.pages} page={data?.page} />
+              <Paginate
+                pages={data?.pages}
+                page={data?.page}
+                keyword={keyword ? keyword : ""}
+              />
             </Col>
           </Row>
         </>
