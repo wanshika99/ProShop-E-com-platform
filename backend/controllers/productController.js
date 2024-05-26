@@ -4,11 +4,17 @@ import Product from "../models/productModel.js";
 // @description     Fetch all products
 // @route           GET /api/products
 // @access          Public
-const getProduct = asyncHandler(async (req, res) => {
+const getProducts = asyncHandler(async (req, res) => {
+  const pageSize = 4;
+  const page = Number(req.query.pageNumber) || 1;
+  const count = await Product.countDocuments();
+
   const products = await Product.find({})
     .collation({ locale: "en", strength: 2 })
-    .sort({ name: 1 });
-  res.status(200).json(products);
+    .sort({ name: 1 })
+    .limit(pageSize)
+    .skip(pageSize * (page - 1));
+  res.status(200).json({ products, page, pages: Math.ceil(count / pageSize) });
 });
 
 // @description     Fetch a product
@@ -30,7 +36,7 @@ const getProductById = asyncHandler(async (req, res) => {
 // @access          Private/Admin
 const createProduct = asyncHandler(async (req, res) => {
   const product = new Product({
-    name: "Sample name",
+    name: "#Sample name",
     price: 0,
     user: req.user._id,
     image: "/images/sample.jpg",
@@ -124,7 +130,7 @@ const createProductReview = asyncHandler(async (req, res) => {
 });
 
 export {
-  getProduct,
+  getProducts,
   getProductById,
   createProduct,
   updateProduct,

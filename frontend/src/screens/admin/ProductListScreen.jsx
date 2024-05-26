@@ -2,9 +2,11 @@ import React from "react";
 import { LinkContainer } from "react-router-bootstrap";
 import { Table, Button, Row, Col } from "react-bootstrap";
 import { FaEdit, FaTrash } from "react-icons/fa";
+import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import Message from "../../components/Message";
 import Loader from "../../components/Loader";
+import Paginate from "../../components/Paginate";
 import {
   useGetProductsQuery,
   useCreateProductMutation,
@@ -12,7 +14,8 @@ import {
 } from "../../slices/productsApiSlice";
 
 const ProductListScreen = () => {
-  const { data: products, isLoading, error, refetch } = useGetProductsQuery();
+  const { pageNumber } = useParams();
+  const { data, isLoading, error, refetch } = useGetProductsQuery({ pageNumber });
   const [CreateProduct, { isLoading: loadingCreate }] =
     useCreateProductMutation();
 
@@ -42,27 +45,30 @@ const ProductListScreen = () => {
     }
   };
 
-  const sampleProducts = products?.filter(
-    (product) => product.name === "Sample name"
+  const sampleProducts = data?.products.filter(
+    (product) => product.name === "#Sample name"
   );
-  const existingProducts = products?.filter(
-    (product) => product.name !== "Sample name"
+  const existingProducts = data?.products.filter(
+    (product) => product.name !== "#Sample name"
   );
 
-  console.log(sampleProducts);
-  console.log(existingProducts);
-
+  //console.log(sampleProducts);
+  //console.log(existingProducts);
   return (
     <>
       <Row className="align-items-center">
         <Col>
           <h1>Products</h1>
         </Col>
-        <Col className="text-end">
+        {(data?.page === 1) && ( 
+          <Col className="text-end">
           <Button className="btn-sm m-3" onClick={createProductHandler}>
             <FaEdit /> Create Product
           </Button>
         </Col>
+        ) }
+        <Paginate pages={data?.pages} page={data?.page} isAdmin={true}/>
+
       </Row>
 
       {loadingCreate && <Loader />}
