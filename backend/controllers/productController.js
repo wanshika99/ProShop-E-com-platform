@@ -5,7 +5,7 @@ import Product from "../models/productModel.js";
 // @route           GET /api/products
 // @access          Public
 const getProducts = asyncHandler(async (req, res) => {
-  const pageSize = 4;
+  const pageSize = process.env.PAGINATION_LIMIT;
   const page = Number(req.query.pageNumber) || 1;
   const keyword = req.query.keyword
     ? { name: { $regex: req.query.keyword, $options: "i" } }
@@ -140,7 +140,9 @@ const createProductReview = asyncHandler(async (req, res) => {
 // @route           GET /api/products/top
 // @access          Public
 const GetTopProducts = asyncHandler(async (req, res) => {
-  const products = await Product.find({}).sort({ rating: -1 }).limit(4);
+  const products = await Product.find({})
+    .sort({ rating: -1 })
+    .limit(process.env.CAROUSEL_LIMIT);
   res.status(200).json(products);
 });
 
