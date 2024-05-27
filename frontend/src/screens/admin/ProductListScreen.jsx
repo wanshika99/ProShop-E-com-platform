@@ -15,7 +15,9 @@ import {
 
 const ProductListScreen = () => {
   const { pageNumber } = useParams();
-  const { data, isLoading, error, refetch } = useGetProductsQuery({ pageNumber });
+  const { data, isLoading, error, refetch } = useGetProductsQuery({
+    pageNumber,
+  });
   const [CreateProduct, { isLoading: loadingCreate }] =
     useCreateProductMutation();
 
@@ -60,15 +62,14 @@ const ProductListScreen = () => {
         <Col>
           <h1>Products</h1>
         </Col>
-        {(data?.page === 1) && ( 
+        {data?.page === 1 && (
           <Col className="text-end">
-          <Button className="btn-sm m-3" onClick={createProductHandler}>
-            <FaEdit /> Create Product
-          </Button>
-        </Col>
-        ) }
-        <Paginate pages={data?.pages} page={data?.page} isAdmin={true}/>
-
+            <Button className="btn-sm m-3" onClick={createProductHandler}>
+              <FaEdit /> Create Product
+            </Button>
+          </Col>
+        )}
+        <Paginate pages={data?.pages} page={data?.page} isAdmin={true} />
       </Row>
 
       {loadingCreate && <Loader />}
@@ -79,7 +80,7 @@ const ProductListScreen = () => {
         <Message variant="danger">{error}</Message>
       ) : sampleProducts.length !== 0 ? (
         <>
-          <Table striped hover responsive className="table-sm">
+          <Table striped bordered hover responsive className="table-sm">
             <thead>
               <tr>
                 <th>Id</th>
@@ -102,7 +103,7 @@ const ProductListScreen = () => {
                     <LinkContainer
                       to={`/admin/products/${sampleProduct._id}/edit`}
                     >
-                      <Button variant="secondary" className="btn-sm mx-2">
+                      <Button variant="light" className="btn-sm mx-2">
                         <FaEdit />
                       </Button>
                     </LinkContainer>
@@ -118,7 +119,7 @@ const ProductListScreen = () => {
               ))}
             </tbody>
           </Table>
-          <Table striped hover responsive className="table-sm my-5">
+          <Table striped bordered hover responsive className="table-sm my-5">
             <thead>
               <tr>
                 <th>Id</th>
@@ -139,7 +140,7 @@ const ProductListScreen = () => {
                   <td>{product.brand}</td>
                   <td>
                     <LinkContainer to={`/admin/products/${product._id}/edit`}>
-                      <Button variant="secondary" className="btn-sm mx-2">
+                      <Button variant="light" className="btn-sm mx-2">
                         <FaEdit />
                       </Button>
                     </LinkContainer>
@@ -158,7 +159,7 @@ const ProductListScreen = () => {
         </>
       ) : (
         <>
-          <Table striped hover responsive className="table-sm">
+          <Table striped bordered hover responsive className="table-sm">
             <thead>
               <tr>
                 <th>Id</th>
@@ -179,7 +180,7 @@ const ProductListScreen = () => {
                   <td>{product.brand}</td>
                   <td>
                     <LinkContainer to={`/admin/products/${product._id}/edit`}>
-                      <Button variant="secondary" className="btn-sm mx-2">
+                      <Button variant="light" className="btn-sm mx-2">
                         <FaEdit />
                       </Button>
                     </LinkContainer>
