@@ -2,12 +2,15 @@
 
 ## E-commerce store with user and admin capabilities with the use of MERN stack and Redux
 
-The project objective is to create an E-commerce site with user and admin capabilities.
+- The project objective is to create an E-commerce site with user and admin capabilities.
 
-## Deploymnet link: 
+### Deployment link: 
+```
 - https://proshop-e-com-platform-your-ultimate.onrender.com/
+```
 
-## Project features:
+### Project features:
+```
 - Full-featured shopping cart with quantity
 - Product reviews and ratings
 - Top products carousel
@@ -22,6 +25,7 @@ The project objective is to create an E-commerce site with user and admin capabi
 - Checkout process (shipping, payment method, etc)
 - PayPal / credit card integration
 - Custom database seeder script
+```
 
   <table>
   <tr>
