@@ -5,9 +5,9 @@
 - The project objective is to create an E-commerce site with user and admin capabilities.
 
 ### Deployment link: 
-```
+
 - https://proshop-e-com-platform-your-ultimate.onrender.com/
-```
+
 
 ### Project features:
 ```
@@ -30,18 +30,18 @@
   <table>
   <tr>
     <td align="center">
-      <img src="./frontend/public/screen_images/main page.png" alt="Main Page" width="400px">
+      <img src="./frontend/public/screen_images/main page.png" alt="Main Page" width="500px">
     </td>
     <td align="center">
-      <img src="./frontend/public/screen_images/product page.png" alt="Product Page" width="400px">
+      <img src="./frontend/public/screen_images/product page.png" alt="Product Page" width="500px">
     </td>
   </tr>
   <tr>
     <td align="center">
-      <img src="./frontend/public/screen_images/order summary.png" alt="Order Summary" width="400px">
+      <img src="./frontend/public/screen_images/order summary.png" alt="Order Summary" width="500px">
     </td>
     <td align="center">
-      <img src="./frontend/public/screen_images/cart.png" alt="Cart" width="400px">
+      <img src="./frontend/public/screen_images/cart.png" alt="Cart" width="500px" height="300px">
     </td>
   </tr>
 </table>
